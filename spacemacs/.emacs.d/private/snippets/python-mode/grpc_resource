@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: grpc resource
+# key: grpc_resource
+# --
+
+def Create$1(self, request: $2.Create$1Request, context: grpc.ServicerContext) -> $2.Create$1Response:
+  $0
+  pass
+
+def Create$1s(self, request_iterator: Iterable[$2.Create$1Request], context: grpc.ServicerContext) -> Iterable[$2.Create$1Response]:
+  pass
+
+def Get$1(self, request: $2.Get$1Request, context: grpc.ServicerContext) -> $2.Get$1Response:
+  pass
+
+def Update$1(self, request: $2.Update$1Request, context: grpc.ServicerContext) -> $2.Update$1Response:
+  pass
+
+def List$1(self, request: $2.List$1Request, context: grpc.ServicerContext) -> Iterable[$2.$1]:
+  pass
+
+def Delete$1(self, request: $2.Delete$1Request, context: grpc.ServicerContext) -> $2.Delete$1Response:
+  pass
+

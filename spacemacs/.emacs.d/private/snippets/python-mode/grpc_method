@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: grpc method
+# key: grpc_method
+# --
+def $1(self, request: $2.$1Request, context: grpc.ServicerContext) -> $2.$1Response:
+    $0
+    pass

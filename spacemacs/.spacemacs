@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(go
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -55,11 +56,13 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom
             shell-default-shell 'vterm)
      spell-checking
-     syntax-checking
+     (syntax-checking :variables
+                      syntax-checking-enable-tooltips nil)
      (treemacs :variables
                treemacs-use-follow-mode t
                treemacs-use-filewatch-mode t
                treemacs-use-collapsed-directories 3
+               treemacs-use-git-mode 'deferred
                treemacs-lock-width t)
      version-control
      osx
@@ -78,7 +81,7 @@ This function should only modify configuration layer settings."
      react
      (python :variables
              python-backend 'lsp
-             python-lsp-server 'python-lsp-server
+             python-lsp-server 'pyls
              ;; python-lsp-server 'mspyls
              ;; python-lsp-git-root "~/Dev/repos/python-language-server"
              python-pipenv-activate t
@@ -100,6 +103,8 @@ This function should only modify configuration layer settings."
               clojure-enable-fancify-symbols t
               clojure-enable-sayid t)
      docker
+     (colors :variables
+             colors-colorize-identifiers 'variables)
      )
 
    ;; List of additional packages that will be installed without being
@@ -120,7 +125,9 @@ This function should only modify configuration layer settings."
      treemacs-icons-dired
      editorconfig
      centaur-tabs
+     flycheck-posframe
      solaire-mode
+     company-tabnine
      (term-cursor :location (recipe :fetcher github :repo "h0d/term-cursor.el" ))
      ;; (icons-in-terminal :location (recipe :fetcher github :repo "seagle0128/icons-in-terminal.el"))
      )
@@ -183,7 +190,7 @@ It should only modify the values of Spacemacs settings."
    ;; This is an advanced option and should not be changed unless you suspect
    ;; performance issues due to garbage collection operations.
    ;; (default '(100000000 0.1))
-   dotspacemacs-gc-cons '(100000000 0.1)
+   dotspacemacs-gc-cons '(4000000 0.1)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -262,14 +269,21 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(all-the-icons :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(doom :separator wave :separator-scale 1.5)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '(("FiraCode-Retina"
+   dotspacemacs-default-font '(
+                               ("FuraCode Nerd Font"
+                                :size 14.0
+                                :weight normal
+                                :width normal
+                                :powerline-scale 1.5
+                               )
+                               ("FiraCode-Retina"
                                :size 14.0
                                :weight normal
                                :width normal
@@ -547,6 +561,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             lsp-pyls-plugins-yapf-enabled nil
             lsp-pyls-plugins-rope-completion-enabled nil
             lsp-pyls-plugins-pyflakes-enabled nil
+            lsp-pyls-plugins-flake8-enabled nil
             lsp-pyls-plugins-pydocstyle-enabled nil
             lsp-pyls-plugins-pycodestyle-enabled nil
             lsp-pyls-plugins-pylint-enabled nil
@@ -577,17 +592,21 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (spacemacs/toggle-indent-guide-globally-on)
 
-  (custom-set-faces
-   '(company-tooltip-common
-     ((t (:inherit company-tooltip :weight bold :underline nil))))
-   '(company-tooltip-common-selection
-     ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+  ;; (custom-set-faces
+  ;;  '(company-tooltip-common
+  ;;    ((t (:inherit company-tooltip :weight bold :underline nil))))
+  ;;  '(company-tooltip-common-selection
+  ;;    ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends #'company-tabnine))
 
   (setq js2-mode-show-parse-errors nil
         js2-mode-show-strict-warnings nil)
 
   (setq split-height-threshold nil)
   (setq split-width-threshold 160)
+  (setq helm-show-completion-display-function #'helm-display-buffer-in-own-frame)
 
   (when (not window-system)
     (progn
@@ -618,8 +637,17 @@ before packages are loaded."
     ;; To enable solaire-mode unconditionally for certain modes:
     (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
+  (use-package flycheck-posframe
+    :ensure t
+    :after flycheck
+    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+
+  (setq flycheck-protoc-import-path '("/Users/samiur/Dev/canopy/packages/canopy-grpc/protos"))
+
   (use-package centaur-tabs
+    :demand
     :config
+    (centaur-tabs-mode t)
     (setq centaur-tabs-style "bar")
     (setq centaur-tabs-height 32)
     (setq centaur-tabs-set-icons t)
@@ -629,7 +657,6 @@ before packages are loaded."
     (centaur-tabs-headline-match)
     (setq centaur-tabs-cycle-scope 'tabs)
     (centaur-tabs-group-by-projectile-project)
-    (centaur-tabs-mode t)
     :hook
     (dashboard-mode . centaur-tabs-local-mode)
     (term-mode . centaur-tabs-local-mode)
@@ -664,7 +691,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(lsp-clients-flow-server "/usr/local/bin/flow")
  '(package-selected-packages
-   '(ob-ipython ein polymode websocket web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data solaire-mode yaml-mode sayid protobuf-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server dockerfile-mode docker tablist docker-tramp clojure-snippets cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode ensime sbt-mode scala-mode company-emacs-eclim eclim vmd-mode flycheck-pycheckers yapfify pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic rjsx-mode dap-mode bui tree-mode web-beautify prettier-js nodejs-repl lsp-ui lsp-treemacs livid-mode skewer-mode simple-httpd json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-lsp company-tern tern company-lsp lsp-mode dash-functional yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum link-hint launchctl indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl devdocs company-statistics company-quickhelp column-enforce-mode clean-aindent-mode centered-cursor-mode centaur-tabs browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile all-the-icons-dired aggressive-indent ace-link ace-jump-helm-line ac-ispell))
+   '(rainbow-mode rainbow-identifiers color-identifiers-mode helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags company-go go-mode ob-ipython ein polymode websocket web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data solaire-mode yaml-mode sayid protobuf-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server dockerfile-mode docker tablist docker-tramp clojure-snippets cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode ensime sbt-mode scala-mode company-emacs-eclim eclim vmd-mode flycheck-pycheckers yapfify pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic rjsx-mode dap-mode bui tree-mode web-beautify prettier-js nodejs-repl lsp-ui lsp-treemacs livid-mode skewer-mode simple-httpd json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-lsp company-tern tern company-lsp lsp-mode dash-functional yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum link-hint launchctl indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl devdocs company-statistics company-quickhelp column-enforce-mode clean-aindent-mode centered-cursor-mode centaur-tabs browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile all-the-icons-dired aggressive-indent ace-link ace-jump-helm-line ac-ispell))
  '(safe-local-variable-values
    '((flycheck-checker . python-pycheckers)
      (python-test-runner . pytest)
