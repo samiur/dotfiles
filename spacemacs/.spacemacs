@@ -86,7 +86,7 @@ This function should only modify configuration layer settings."
              ;; python-lsp-git-root "~/Dev/repos/python-language-server"
              python-pipenv-activate t
              python-formatter 'yapf
-             python-fill-column 120
+             python-fill-column 144
              python-tab-width 2
              python-auto-set-local-pyenv-version 'on-project-switch
              python-auto-set-local-pyvenv-virtualenv 'on-project-switch
@@ -130,6 +130,7 @@ This function should only modify configuration layer settings."
      company-tabnine
      (term-cursor :location (recipe :fetcher github :repo "h0d/term-cursor.el" ))
      ;; (icons-in-terminal :location (recipe :fetcher github :repo "seagle0128/icons-in-terminal.el"))
+     gcmh
      )
 
    ;; A list of packages that cannot be updated.
@@ -190,7 +191,7 @@ It should only modify the values of Spacemacs settings."
    ;; This is an advanced option and should not be changed unless you suspect
    ;; performance issues due to garbage collection operations.
    ;; (default '(100000000 0.1))
-   dotspacemacs-gc-cons '(4000000 0.1)
+   dotspacemacs-gc-cons '(10000000 0.1)
 
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
@@ -672,6 +673,13 @@ before packages are loaded."
 	        ("g <left>" . centaur-tabs-backward)
           ("g <up>" . centaur-tabs-forward-group)
           ("g <down>" . centaur-tabs-backward-group)))
+
+  (use-package gcmh
+    :ensure t
+    :config
+    (setq garbage-collection-messages t)
+    (setq gcmh-verbose t)
+    (gcmh-mode 1))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
