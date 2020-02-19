@@ -84,8 +84,8 @@ This function should only modify configuration layer settings."
              python-lsp-server 'pyls
              ;; python-lsp-server 'mspyls
              ;; python-lsp-git-root "~/Dev/repos/python-language-server"
-             python-pipenv-activate t
              python-formatter 'yapf
+             python-sort-imports-on-save t
              python-fill-column 144
              python-tab-width 2
              python-auto-set-local-pyenv-version 'on-project-switch
@@ -563,10 +563,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             lsp-pyls-plugins-rope-completion-enabled nil
             lsp-pyls-plugins-pyflakes-enabled nil
             lsp-pyls-plugins-flake8-enabled nil
+            lsp-pyls-plugins-autopep8-enabled nil
             lsp-pyls-plugins-pydocstyle-enabled nil
             lsp-pyls-plugins-pycodestyle-enabled nil
             lsp-pyls-plugins-pylint-enabled nil
             lsp-pyls-plugins-mccabe-enabled nil
+            lsp-pyls-plugins-jedi-use-pyenv-environment t
             company-lsp-cache-candidates 'auto
             )
       ;; (lsp-register-custom-settings
@@ -644,6 +646,23 @@ before packages are loaded."
     :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   (setq flycheck-protoc-import-path '("/Users/samiur/Dev/canopy/packages/canopy-grpc/protos"))
+  (add-to-list 'editorconfig-indentation-alist
+               ;; Just an example, of course EditorConfig has already included this setting!
+               '(protobuf-mode c-basic-offset))
+
+  (with-eval-after-load 'git-gutter+
+    (defun git-gutter+-remote-default-directory (dir file)
+      (let* ((vec (tramp-dissect-file-name file))
+             (method (tramp-file-name-method vec))
+             (user (tramp-file-name-user vec))
+             (domain (tramp-file-name-domain vec))
+             (host (tramp-file-name-host vec))
+             (port (tramp-file-name-port vec)))
+        (tramp-make-tramp-file-name method user domain host port dir)))
+
+    (defun git-gutter+-remote-file-path (dir file)
+      (let ((file (tramp-file-name-localname (tramp-dissect-file-name file))))
+        (replace-regexp-in-string (concat "\\`" dir) "" file))))
 
   (use-package centaur-tabs
     :demand
@@ -674,12 +693,23 @@ before packages are loaded."
           ("g <up>" . centaur-tabs-forward-group)
           ("g <down>" . centaur-tabs-backward-group)))
 
+  (setq read-process-output-max (* 3 1024 1024))
+
   (use-package gcmh
     :ensure t
     :config
     (setq garbage-collection-messages t)
     (setq gcmh-verbose t)
     (gcmh-mode 1))
+
+  (with-eval-after-load 'doom-modeline
+    (setq doom-modeline-buffer-file-name-style 'file-name
+          doom-modeline-buffer-encoding nil
+          doom-modeline-unicode-fallback t)
+    (doom-modeline-def-modeline 'my-main
+      '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position parrot selection-info)
+      '(objed-state misc-info checker persp-name battery grip irc mu4e github debug lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs))
+    (doom-modeline-set-modeline 'my-main 'default))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
