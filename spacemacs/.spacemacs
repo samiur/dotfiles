@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(go
+   '(nginx
+     go
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -75,7 +76,9 @@ This function should only modify configuration layer settings."
      (javascript :variables
                  javascript-import-tool 'import-js
                  javascript-backend 'lsp
-                 javascript-lsp-linter nil
+                 ;; javascript-lsp-linter nil
+                 js2-mode-show-strict-warnings nil
+                 js2-mode-show-parse-errors nil
                  node-add-modules-path t
                  javascript-fmt-tool 'prettier)
      react
@@ -105,6 +108,7 @@ This function should only modify configuration layer settings."
      docker
      (colors :variables
              colors-colorize-identifiers 'variables)
+     emoji
      )
 
    ;; List of additional packages that will be installed without being
@@ -127,7 +131,6 @@ This function should only modify configuration layer settings."
      centaur-tabs
      flycheck-posframe
      solaire-mode
-     company-tabnine
      (term-cursor :location (recipe :fetcher github :repo "h0d/term-cursor.el" ))
      ;; (icons-in-terminal :location (recipe :fetcher github :repo "seagle0128/icons-in-terminal.el"))
      gcmh
@@ -640,10 +643,10 @@ before packages are loaded."
     ;; To enable solaire-mode unconditionally for certain modes:
     (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
-  (use-package flycheck-posframe
-    :ensure t
-    :after flycheck
-    :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  ;; (use-package flycheck-posframe
+  ;;   :ensure t
+  ;;   :after flycheck
+  ;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
   (setq flycheck-protoc-import-path '("/Users/samiur/Dev/canopy/packages/canopy-grpc/protos"))
   (add-to-list 'editorconfig-indentation-alist
@@ -729,7 +732,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(lsp-clients-flow-server "/usr/local/bin/flow")
  '(package-selected-packages
-   '(rainbow-mode rainbow-identifiers color-identifiers-mode helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags company-go go-mode ob-ipython ein polymode websocket web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data solaire-mode yaml-mode sayid protobuf-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server dockerfile-mode docker tablist docker-tramp clojure-snippets cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode ensime sbt-mode scala-mode company-emacs-eclim eclim vmd-mode flycheck-pycheckers yapfify pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic rjsx-mode dap-mode bui tree-mode web-beautify prettier-js nodejs-repl lsp-ui lsp-treemacs livid-mode skewer-mode simple-httpd json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-lsp company-tern tern company-lsp lsp-mode dash-functional yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum link-hint launchctl indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl devdocs company-statistics company-quickhelp column-enforce-mode clean-aindent-mode centered-cursor-mode centaur-tabs browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile all-the-icons-dired aggressive-indent ace-link ace-jump-helm-line ac-ispell))
+   '(nginx-mode rainbow-mode rainbow-identifiers color-identifiers-mode helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags company-go go-mode ob-ipython ein polymode websocket web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data solaire-mode yaml-mode sayid protobuf-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server dockerfile-mode docker tablist docker-tramp clojure-snippets cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode ensime sbt-mode scala-mode company-emacs-eclim eclim vmd-mode flycheck-pycheckers yapfify pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic rjsx-mode dap-mode bui tree-mode web-beautify prettier-js nodejs-repl lsp-ui lsp-treemacs livid-mode skewer-mode simple-httpd json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-lsp company-tern tern company-lsp lsp-mode dash-functional yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum link-hint launchctl indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl devdocs company-statistics company-quickhelp column-enforce-mode clean-aindent-mode centered-cursor-mode centaur-tabs browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile all-the-icons-dired aggressive-indent ace-link ace-jump-helm-line ac-ispell))
  '(safe-local-variable-values
    '((flycheck-checker . python-pycheckers)
      (python-test-runner . pytest)
