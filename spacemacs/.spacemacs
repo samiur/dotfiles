@@ -88,7 +88,6 @@ This function should only modify configuration layer settings."
              ;; python-lsp-server 'mspyls
              ;; python-lsp-git-root "~/Dev/repos/python-language-server"
              python-formatter 'yapf
-             python-sort-imports-on-save t
              python-fill-column 144
              python-tab-width 2
              python-auto-set-local-pyenv-version 'on-project-switch
@@ -107,7 +106,7 @@ This function should only modify configuration layer settings."
               clojure-enable-sayid t)
      docker
      (colors :variables
-             colors-colorize-identifiers 'variables)
+             colors-colorize-identifiers 'all)
      emoji
      )
 
@@ -572,7 +571,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             lsp-pyls-plugins-pylint-enabled nil
             lsp-pyls-plugins-mccabe-enabled nil
             lsp-pyls-plugins-jedi-use-pyenv-environment t
-            company-lsp-cache-candidates 'auto
+            lsp-diagnostic-package nil
             )
       ;; (lsp-register-custom-settings
       ;;  '(("pyls.plugins.pylint.enabled" nil)
@@ -603,9 +602,6 @@ before packages are loaded."
   ;;    ((t (:inherit company-tooltip :weight bold :underline nil))))
   ;;  '(company-tooltip-common-selection
   ;;    ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
-
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends #'company-tabnine))
 
   (setq js2-mode-show-parse-errors nil
         js2-mode-show-strict-warnings nil)
