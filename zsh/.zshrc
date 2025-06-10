@@ -11,5 +11,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+emulate sh -c 'source /Users/samiur/.betterup_profile/init.sh'
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# Load direnv
+eval "$(direnv hook zsh)"

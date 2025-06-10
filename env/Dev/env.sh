@@ -1,28 +1,27 @@
 set -a
-source ~/Dev/canopy/.env
+source ~/Dev/.env
 set +a
 
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
+# Added by `rbenv init` on Thu Nov 21 17:35:44 PST 2024
+eval "$(rbenv init - --no-rehash zsh)"
+
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
 alias dc=docker-compose
-alias dc-python-dev="docker-compose -f docker-compose.yml -f packages/canopy-python/docker-compose.override.yml"
 
 alias kc=kubectl
-alias kc-prod="kubectl --context=kube.usejournal.com"
-alias kc-staging="kubectl --context=kube.staging.canopyiq.com"
-
-alias mypy-daemon="dmypy run --"
 
 export GOPATH="${HOME}/go"
 export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
-export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gnu-tar)/libexec/gnubin:$PATH"
+export PATH="$PATH:$HOME/.rbenv/shims"
 
-export LDFLAGS="-L/usr/local/opt/openssl/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export LDFLAGS="-L$(brew --prefix openssl)/lib"
+export CPPFLAGS="-I$(brew --prefix openssl)/include"
 
 ulimit -n 65536 65536
 ulimit -f unlimited
