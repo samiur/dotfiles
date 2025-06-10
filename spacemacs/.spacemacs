@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(rust
+   '(sql
+     rust
      (typescript :variables
                  typescript-fmt-tool 'prettier
                  typescript-backend 'lsp)
@@ -93,6 +94,7 @@ This function should only modify configuration layer settings."
                  node-add-modules-path t
                  javascript-fmt-tool 'prettier)
      react
+     ruby
      (python :variables
              python-backend 'lsp
              python-lsp-server 'pyright
@@ -142,6 +144,8 @@ This function should only modify configuration layer settings."
      (term-cursor :location (recipe :fetcher github :repo "h0d/term-cursor.el" ))
      ;; (icons-in-terminal :location (recipe :fetcher github :repo "seagle0128/icons-in-terminal.el"))
      gcmh
+     jupyter
+     (claude-code :location (recipe :fetcher github :repo "stevemolitor/claude-code.el"))
      )
 
    ;; A list of packages that cannot be updated.
@@ -315,13 +319,13 @@ It should only modify the values of Spacemacs settings."
                                 :weight normal
                                 :width normal
                                 :powerline-scale 1.5
-                               )
+                                )
                                ("FiraCode-Retina"
-                               :size 14.0
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.5
-                               )
+                                :size 14.0
+                                :weight normal
+                                :width normal
+                                :powerline-scale 1.5
+                                )
                                ("Fira Code Retina"
                                 :size 14.0
                                 :weight normal
@@ -640,11 +644,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             lsp-enable-links nil
             lsp-enable-file-watchers nil
             lsp-idle-delay 0.500
-	          lsp-pylsp-plugins-jedi-use-pyenv-environment t
-	          )
-     )
+            lsp-pylsp-plugins-jedi-use-pyenv-environment t
+            lsp-disabled-clients (-union lsp-disabled-clients '(ruby-ls rubocop-ls))
+            )
+      )
+    )
   )
-)
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -760,8 +765,8 @@ before packages are loaded."
     ("C-<next>" . centaur-tabs-forward)
     ("C-c t" . centaur-tabs-counsel-switch-group)
     (:map evil-normal-state-map
-	        ("g <right>" . centaur-tabs-forward)
-	        ("g <left>" . centaur-tabs-backward)
+          ("g <right>" . centaur-tabs-forward)
+          ("g <left>" . centaur-tabs-backward)
           ("g <up>" . centaur-tabs-forward-group)
           ("g <down>" . centaur-tabs-backward-group)))
 
@@ -773,6 +778,12 @@ before packages are loaded."
     (setq garbage-collection-messages t)
     (setq gcmh-verbose t)
     (gcmh-mode 1))
+
+  (use-package claude-code
+    :bind-keymap
+    ("C-c c" . claude-code-command-map)
+    :config
+    (claude-code-mode))
 
   (with-eval-after-load 'doom-modeline
     (setq doom-modeline-buffer-file-name-style 'file-name
@@ -791,29 +802,92 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "4f1d2476c290eaa5d9ab9d13b60f2c0f1c8fa7703596fa91b235db7f99a9441b" "41098e2f8fa67dc51bbe89cce4fb7109f53a164e3a92356964c72f76d068587e" "155a5de9192c2f6d53efcc9c554892a0d87d87f99ad8cc14b330f4f4be204445" "cb477d192ee6456dc2eb5ca5a0b7bd16bdb26514be8f8512b937291317c7b166" "34c99997eaa73d64b1aaa95caca9f0d64229871c200c5254526d0062f8074693" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "4e132458143b6bab453e812f03208075189deca7ad5954a4abb27d5afce10a9a" "b0fd04a1b4b614840073a82a53e88fe2abc3d731462d6fde4e541807825af342" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" default))
- '(evil-want-Y-yank-to-eol nil)
- '(lsp-clients-flow-server "/usr/local/bin/flow")
- '(package-selected-packages
-   '(toml-mode ron-mode racer rust-mode flycheck-rust cargo graphql-mode typescript-mode import-js grizzl csv-mode seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest enh-ruby-mode chruby bundler inf-ruby nginx-mode rainbow-mode rainbow-identifiers color-identifiers-mode helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags company-go go-mode ob-ipython ein polymode websocket web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data solaire-mode yaml-mode sayid protobuf-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server dockerfile-mode docker tablist docker-tramp clojure-snippets cider-eval-sexp-fu cider sesman queue parseedn clojure-mode parseclj a mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode ensime sbt-mode scala-mode company-emacs-eclim eclim vmd-mode flycheck-pycheckers yapfify pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc cython-mode company-anaconda blacken anaconda-mode pythonic rjsx-mode dap-mode bui tree-mode web-beautify prettier-js nodejs-repl lsp-ui lsp-treemacs livid-mode skewer-mode simple-httpd json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc helm-lsp company-tern tern company-lsp lsp-mode dash-functional yasnippet-snippets xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless mwim multi-term move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum link-hint launchctl indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline diminish diff-hl devdocs company-statistics company-quickhelp column-enforce-mode clean-aindent-mode centered-cursor-mode centaur-tabs browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile all-the-icons-dired aggressive-indent ace-link ace-jump-helm-line ac-ispell))
- '(safe-local-variable-values
-   '((flycheck-checker . python-pycheckers)
-     (python-test-runner . pytest)
-     (javascript-backend . tern)
-     (javascript-backend . lsp)))
- '(warning-suppress-types '((comp) (comp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(custom-safe-themes
+     '("234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6"
+       "4f1d2476c290eaa5d9ab9d13b60f2c0f1c8fa7703596fa91b235db7f99a9441b"
+       "41098e2f8fa67dc51bbe89cce4fb7109f53a164e3a92356964c72f76d068587e"
+       "155a5de9192c2f6d53efcc9c554892a0d87d87f99ad8cc14b330f4f4be204445"
+       "cb477d192ee6456dc2eb5ca5a0b7bd16bdb26514be8f8512b937291317c7b166"
+       "34c99997eaa73d64b1aaa95caca9f0d64229871c200c5254526d0062f8074693"
+       "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+       "4e132458143b6bab453e812f03208075189deca7ad5954a4abb27d5afce10a9a"
+       "b0fd04a1b4b614840073a82a53e88fe2abc3d731462d6fde4e541807825af342"
+       "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" default))
+   '(evil-want-Y-yank-to-eol nil)
+   '(lsp-clients-flow-server "/usr/local/bin/flow")
+   '(package-selected-packages
+     '(a ac-ispell ace-jump-helm-line ace-link aggressive-indent all-the-icons-dired
+         anaconda-mode auto-compile auto-dictionary auto-highlight-symbol
+         auto-yasnippet blacken browse-at-remote bui bundler cargo centaur-tabs
+         centered-cursor-mode chruby cider cider-eval-sexp-fu clean-aindent-mode
+         clojure-mode clojure-snippets color-identifiers-mode column-enforce-mode
+         company-anaconda company-emacs-eclim company-go company-lsp
+         company-quickhelp company-statistics company-tern company-web concurrent
+         counsel counsel-css counsel-gtags csv-mode ctable cython-mode dap-mode
+         dash-functional deferred devdocs diff-hl diminish docker docker-tramp
+         dockerfile-mode doom-modeline doom-themes dotenv-mode dumb-jump eclim
+         edit-server editorconfig ein elisp-slime-nav emmet-mode enh-ruby-mode
+         ensime epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu
+         evil-args evil-cleverparens evil-ediff evil-escape evil-exchange
+         evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
+         evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org
+         evil-surround evil-textobj-line evil-tutor evil-unimpaired
+         evil-visual-mark-mode evil-visualstar expand-region eyebrowse
+         fancy-battery fill-column-indicator flx-ido flycheck-golangci-lint
+         flycheck-package flycheck-pos-tip flycheck-pycheckers flycheck-rust flymd
+         flyspell-correct-helm font-lock+ fuzzy ggtags gh-md git-gutter-fringe
+         git-gutter-fringe+ git-link git-messenger git-timemachine
+         gitattributes-mode gitconfig-mode gitignore-templates gmail-message-mode
+         gnuplot go-eldoc go-fill-struct go-gen-test go-guru go-impl go-mode
+         go-rename go-tag godoctor golden-ratio google-translate gradle-mode
+         graphql-mode grizzl groovy-imports groovy-mode ham-mode haml-mode helm-ag
+         helm-c-yasnippet helm-company helm-css-scss helm-descbinds helm-flx
+         helm-git-grep helm-gitignore helm-gtags helm-lsp helm-make
+         helm-mode-manager helm-org-rifle helm-projectile helm-purpose helm-pydoc
+         helm-swoop helm-themes helm-xref hierarchy highlight-indentation
+         highlight-numbers highlight-parentheses hl-todo html-to-markdown htmlize
+         hungry-delete impatient-mode import-js importmagic indent-guide inf-ruby
+         ivy js-doc js2-mode js2-refactor json-mode json-navigator json-reformat
+         json-snatcher launchctl link-hint live-py-mode livid-mode lorem-ipsum
+         lsp-java lsp-mode lsp-python-ms lsp-treemacs lsp-ui macrostep
+         magit-gitflow magit-svn markdown-toc maven-test-mode meghanada minitest
+         mmm-mode move-text multi-term multiple-cursors mvn mwim nameless
+         nginx-mode nodejs-repl ob-ipython open-junk-file org-brain org-bullets
+         org-cliplink org-download org-mime org-pomodoro org-present
+         org-projectile orgit osx-clipboard osx-dictionary osx-trash overseer
+         paradox parseclj parseedn password-generator pcache pcre2el persp-mode
+         pip-requirements pipenv pippel polymode popwin prettier-js protobuf-mode
+         pug-mode py-isort pyenv-mode pytest pythonic pyvenv queue racer
+         rainbow-delimiters rainbow-identifiers rainbow-mode rake rbenv
+         restart-emacs reveal-in-osx-finder rjsx-mode robe ron-mode rspec-mode
+         rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode
+         ruby-tools rust-mode rvm sass-mode sayid sbt-mode scala-mode scss-mode
+         seeing-is-believing sesman shell-pop simple-httpd skewer-mode slim-mode
+         smeargle solaire-mode spaceline-all-the-icons sql-indent sqlup-mode
+         string-inflection swiper symbol-overlay symon tablist tagedit tern
+         toc-org toml-mode tree-mode treemacs-evil treemacs-projectile
+         typescript-mode unfill use-package uuidgen vi-tilde-fringe vmd-mode
+         volatile-highlights web-beautify web-completion-data web-mode websocket
+         which-key winum writeroom-mode ws-butler xterm-color yaml-mode yapfify
+         yasnippet-snippets))
+   '(safe-local-variable-values
+     '((web-mode-indent-style . 2) (web-mode-block-padding . 2)
+       (web-mode-script-padding . 2) (web-mode-style-padding . 2)
+       (js2-basic-offset . 2) (evil-shift-width . 2)
+       (flycheck-checker . python-pycheckers) (python-test-runner . pytest)
+       (javascript-backend . tern) (javascript-backend . lsp)))
+   '(warning-suppress-types '((comp) (comp))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+   '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+   '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+  )
