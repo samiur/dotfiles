@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(sql
+   '(ansible
+     sql
      rust
      (typescript :variables
                  typescript-fmt-tool 'prettier
@@ -98,7 +99,7 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-lsp-server 'pyright
-             python-formatter 'yapf
+             python-formatter 'ruff
              python-fill-column 144
              python-tab-width 2
              python-auto-set-local-pyenv-version 'on-project-switch
@@ -146,6 +147,7 @@ This function should only modify configuration layer settings."
      gcmh
      jupyter
      (claude-code :location (recipe :fetcher github :repo "stevemolitor/claude-code.el"))
+     (ultra-scroll :location (recipe :fetcher github :repo "jdtsmith/ultra-scroll"))
      )
 
    ;; A list of packages that cannot be updated.
@@ -785,6 +787,13 @@ before packages are loaded."
     :config
     (claude-code-mode))
 
+  (use-package ultra-scroll
+    :init
+    (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
+          scroll-margin 0)        ; important: scroll-margin>0 not yet supported
+    :config
+    (ultra-scroll-mode 1))
+
   (with-eval-after-load 'doom-modeline
     (setq doom-modeline-buffer-file-name-style 'file-name
           doom-modeline-buffer-encoding nil
@@ -822,39 +831,40 @@ This function is called at the very end of Spacemacs initialization."
    '(lsp-clients-flow-server "/usr/local/bin/flow")
    '(package-selected-packages
      '(a ac-ispell ace-jump-helm-line ace-link aggressive-indent all-the-icons-dired
-         anaconda-mode auto-compile auto-dictionary auto-highlight-symbol
-         auto-yasnippet blacken browse-at-remote bui bundler cargo centaur-tabs
-         centered-cursor-mode chruby cider cider-eval-sexp-fu clean-aindent-mode
-         clojure-mode clojure-snippets color-identifiers-mode column-enforce-mode
-         company-anaconda company-emacs-eclim company-go company-lsp
-         company-quickhelp company-statistics company-tern company-web concurrent
-         counsel counsel-css counsel-gtags csv-mode ctable cython-mode dap-mode
-         dash-functional deferred devdocs diff-hl diminish docker docker-tramp
-         dockerfile-mode doom-modeline doom-themes dotenv-mode dumb-jump eclim
-         edit-server editorconfig ein elisp-slime-nav emmet-mode enh-ruby-mode
-         ensime epc esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu
-         evil-args evil-cleverparens evil-ediff evil-escape evil-exchange
-         evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
-         evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org
-         evil-surround evil-textobj-line evil-tutor evil-unimpaired
-         evil-visual-mark-mode evil-visualstar expand-region eyebrowse
-         fancy-battery fill-column-indicator flx-ido flycheck-golangci-lint
-         flycheck-package flycheck-pos-tip flycheck-pycheckers flycheck-rust flymd
-         flyspell-correct-helm font-lock+ fuzzy ggtags gh-md git-gutter-fringe
-         git-gutter-fringe+ git-link git-messenger git-timemachine
-         gitattributes-mode gitconfig-mode gitignore-templates gmail-message-mode
-         gnuplot go-eldoc go-fill-struct go-gen-test go-guru go-impl go-mode
-         go-rename go-tag godoctor golden-ratio google-translate gradle-mode
-         graphql-mode grizzl groovy-imports groovy-mode ham-mode haml-mode helm-ag
-         helm-c-yasnippet helm-company helm-css-scss helm-descbinds helm-flx
-         helm-git-grep helm-gitignore helm-gtags helm-lsp helm-make
-         helm-mode-manager helm-org-rifle helm-projectile helm-purpose helm-pydoc
-         helm-swoop helm-themes helm-xref hierarchy highlight-indentation
-         highlight-numbers highlight-parentheses hl-todo html-to-markdown htmlize
-         hungry-delete impatient-mode import-js importmagic indent-guide inf-ruby
-         ivy js-doc js2-mode js2-refactor json-mode json-navigator json-reformat
-         json-snatcher launchctl link-hint live-py-mode livid-mode lorem-ipsum
-         lsp-java lsp-mode lsp-python-ms lsp-treemacs lsp-ui macrostep
+         anaconda-mode ansible ansible-doc auto-compile auto-dictionary
+         auto-highlight-symbol auto-yasnippet blacken browse-at-remote bui bundler
+         cargo centaur-tabs centered-cursor-mode chruby cider cider-eval-sexp-fu
+         clean-aindent-mode clojure-mode clojure-snippets color-identifiers-mode
+         column-enforce-mode company-anaconda company-ansible company-emacs-eclim
+         company-go company-lsp company-quickhelp company-statistics company-tern
+         company-web concurrent counsel counsel-css counsel-gtags csv-mode ctable
+         cython-mode dap-mode dash-functional deferred devdocs diff-hl diminish
+         docker docker-tramp dockerfile-mode doom-modeline doom-themes dotenv-mode
+         dumb-jump eclim edit-server editorconfig ein elisp-slime-nav emmet-mode
+         enh-ruby-mode ensime epc esh-help eshell-prompt-extras eshell-z
+         eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-ediff evil-escape
+         evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion
+         evil-lisp-state evil-magit evil-matchit evil-mc evil-nerd-commenter
+         evil-numbers evil-org evil-surround evil-textobj-line evil-tutor
+         evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region
+         eyebrowse fancy-battery fill-column-indicator flx-ido
+         flycheck-golangci-lint flycheck-package flycheck-pos-tip
+         flycheck-pycheckers flycheck-rust flymd flyspell-correct-helm font-lock+
+         fuzzy ggtags gh-md git-gutter-fringe git-gutter-fringe+ git-link
+         git-messenger git-timemachine gitattributes-mode gitconfig-mode
+         gitignore-templates gmail-message-mode gnuplot go-eldoc go-fill-struct
+         go-gen-test go-guru go-impl go-mode go-rename go-tag godoctor
+         golden-ratio google-translate gradle-mode graphql-mode grizzl
+         groovy-imports groovy-mode ham-mode haml-mode helm-ag helm-c-yasnippet
+         helm-company helm-css-scss helm-descbinds helm-flx helm-git-grep
+         helm-gitignore helm-gtags helm-lsp helm-make helm-mode-manager
+         helm-org-rifle helm-projectile helm-purpose helm-pydoc helm-swoop
+         helm-themes helm-xref hierarchy highlight-indentation highlight-numbers
+         highlight-parentheses hl-todo html-to-markdown htmlize hungry-delete
+         impatient-mode import-js importmagic indent-guide inf-ruby ivy
+         jinja2-mode js-doc js2-mode js2-refactor json-mode json-navigator
+         json-reformat json-snatcher launchctl link-hint live-py-mode livid-mode
+         lorem-ipsum lsp-java lsp-mode lsp-python-ms lsp-treemacs lsp-ui macrostep
          magit-gitflow magit-svn markdown-toc maven-test-mode meghanada minitest
          mmm-mode move-text multi-term multiple-cursors mvn mwim nameless
          nginx-mode nodejs-repl ob-ipython open-junk-file org-brain org-bullets

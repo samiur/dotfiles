@@ -32,6 +32,7 @@
 (defconst samiur-python-packages
   '(flycheck
     (flycheck-pycheckers :requires flycheck)
+    lsp-mode
     ;; python
     ;; (lsp-python-ms
     ;;  :requires lsp-mode lsp-ui company-lsp
@@ -59,7 +60,7 @@
   (setq flycheck-checker 'python-pycheckers)
   (pcase python-backend
     (`lspms (lsp)))
-)
+  )
 
 (defun set-python-checkers ()
   (setq flycheck-checker 'python-pycheckers))
@@ -114,5 +115,21 @@
 ;;     :backends (company-anaconda :with company-capf)
 ;;     :modes python-mode)
 ;;   (delete* 'company-anaconda company-backends-python-mode))
+
+;; lsp stuff
+(defun samiur-python/post-init-lsp-mode ()
+  (with-eval-after-load 'lsp-mode
+    (defcustom lsp-python-zuban-clients-server-command '("zuban" "server")
+      "Command to start the python zuban language server."
+      :risky t
+      :type '(repeat string))
+
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection (lambda () lsp-python-zuban-clients-server-command))
+                      :activation-fn (lsp-activate-on "python")
+                      :priority -1
+                      :add-on? t
+                      :server-id 'py-zuban))
+    ))
 
 ;;; packages.el ends here
