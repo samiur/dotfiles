@@ -32,6 +32,10 @@ Whenever you build out a new project and specifically start a new Claude.md - yo
 - When you are trying to fix a bug or compilation error or any other issue, YOU MUST NEVER throw away the old implementation and rewrite without expliict permission from the user. If you are going to do this, YOU MUST STOP and get explicit permission from the user.
 - NEVER name things as 'improved' or 'new' or 'enhanced', etc. Code naming should be evergreen. What is new today will be "old" someday.
 
+# Styling
+- Always try to establish a .editorconfig file for the repository, and write code that follows the rules
+- Cleanup whitespace before committing code
+
 # Getting help
 
 - ALWAYS ask for clarification rather than making assumptions.
@@ -62,6 +66,12 @@ Whenever you build out a new project and specifically start a new Claude.md - yo
 
 # Specific Technologies
 
+Create backend APIs and workers in Python, and frontend UIs in Javascript/React.
+
 - @~/.claude/docs/python.md
+- @~/.claude/docs/javascript.md
 - @~/.claude/docs/source-control.md
 - @~/.claude/docs/using-uv.md
+
+- Keep track of the current working directory, as otherwise, it's easy to run into false issues.
+
