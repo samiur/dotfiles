@@ -1,0 +1,1 @@
+I'm going to be stepping away from the computer for a while: I'd like you to continue making as much progress as you can without me as possible, making reasonable assumptions where you need to, and keep a record of that ready to verify with me when I get back.
