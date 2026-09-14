@@ -1,0 +1,23 @@
+Makefile
+  s_86292152737d46::t_118f3829e15dee 1
+emacs/.local/bin/fix-emacs-alias
+  s_86292152737d46::t_1e2c2f51517442 1-54
+zsh/.zshrc
+  s_86292152737d46::t_20050e91cb3564 42-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "162689ad0ed8aa2e0973524a457d34c9d349ab42",
+  "prompts": {},
+  "sessions": {
+    "s_86292152737d46": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "20f0ecc5-0731-438b-a384-6ae5589efc63",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
