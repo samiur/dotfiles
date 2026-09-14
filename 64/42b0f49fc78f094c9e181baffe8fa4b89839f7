@@ -1,0 +1,126 @@
+claude/.claude/commands/gsd/add-backlog.md
+  h_80cac1271e711d 1-76
+claude/.claude/commands/gsd/add-phase.md
+  h_80cac1271e711d 1-43
+claude/.claude/commands/gsd/add-tests.md
+  h_80cac1271e711d 1-41
+claude/.claude/commands/gsd/add-todo.md
+  h_80cac1271e711d 1-47
+claude/.claude/commands/gsd/audit-milestone.md
+  h_80cac1271e711d 1-36
+claude/.claude/commands/gsd/audit-uat.md
+  h_80cac1271e711d 1-24
+claude/.claude/commands/gsd/autonomous.md
+  h_80cac1271e711d 1-41
+claude/.claude/commands/gsd/check-todos.md
+  h_80cac1271e711d 1-45
+claude/.claude/commands/gsd/cleanup.md
+  h_80cac1271e711d 1-18
+claude/.claude/commands/gsd/complete-milestone.md
+  h_80cac1271e711d 1-136
+claude/.claude/commands/gsd/debug.md
+  h_80cac1271e711d 1-173
+claude/.claude/commands/gsd/discuss-phase.md
+  h_80cac1271e711d 1-64
+claude/.claude/commands/gsd/do.md
+  h_80cac1271e711d 1-30
+claude/.claude/commands/gsd/execute-phase.md
+  h_80cac1271e711d 1-59
+claude/.claude/commands/gsd/fast.md
+  h_80cac1271e711d 1-30
+claude/.claude/commands/gsd/forensics.md
+  h_80cac1271e711d 1-56
+claude/.claude/commands/gsd/health.md
+  h_80cac1271e711d 1-22
+claude/.claude/commands/gsd/help.md
+  h_80cac1271e711d 1-22
+claude/.claude/commands/gsd/insert-phase.md
+  h_80cac1271e711d 1-32
+claude/.claude/commands/gsd/join-discord.md
+  h_80cac1271e711d 1-18
+claude/.claude/commands/gsd/list-phase-assumptions.md
+  h_80cac1271e711d 1-46
+claude/.claude/commands/gsd/list-workspaces.md
+  h_80cac1271e711d 1-19
+claude/.claude/commands/gsd/manager.md
+  h_80cac1271e711d 1-39
+claude/.claude/commands/gsd/map-codebase.md
+  h_80cac1271e711d 1-71
+claude/.claude/commands/gsd/milestone-summary.md
+  h_80cac1271e711d 1-51
+claude/.claude/commands/gsd/new-milestone.md
+  h_80cac1271e711d 1-44
+claude/.claude/commands/gsd/new-project.md
+  h_80cac1271e711d 1-42
+claude/.claude/commands/gsd/new-workspace.md
+  h_80cac1271e711d 1-44
+claude/.claude/commands/gsd/next.md
+  h_80cac1271e711d 1-24
+claude/.claude/commands/gsd/note.md
+  h_80cac1271e711d 1-34
+claude/.claude/commands/gsd/pause-work.md
+  h_80cac1271e711d 1-38
+claude/.claude/commands/gsd/plan-milestone-gaps.md
+  h_80cac1271e711d 1-34
+claude/.claude/commands/gsd/plan-phase.md
+  h_80cac1271e711d 1-47
+claude/.claude/commands/gsd/plant-seed.md
+  h_80cac1271e711d 1-28
+claude/.claude/commands/gsd/pr-branch.md
+  h_80cac1271e711d 1-25
+claude/.claude/commands/gsd/profile-user.md
+  h_80cac1271e711d 1-46
+claude/.claude/commands/gsd/progress.md
+  h_80cac1271e711d 1-24
+claude/.claude/commands/gsd/quick.md
+  h_80cac1271e711d 1-47
+claude/.claude/commands/gsd/reapply-patches.md
+  h_80cac1271e711d 1-123
+claude/.claude/commands/gsd/remove-phase.md
+  h_80cac1271e711d 1-31
+claude/.claude/commands/gsd/remove-workspace.md
+  h_80cac1271e711d 1-26
+claude/.claude/commands/gsd/research-phase.md
+  h_80cac1271e711d 1-195
+claude/.claude/commands/gsd/resume-work.md
+  h_80cac1271e711d 1-40
+claude/.claude/commands/gsd/review-backlog.md
+  h_80cac1271e711d 1-61
+claude/.claude/commands/gsd/review.md
+  h_80cac1271e711d 1-37
+claude/.claude/commands/gsd/session-report.md
+  h_80cac1271e711d 1-19
+claude/.claude/commands/gsd/set-profile.md
+  h_80cac1271e711d 1-12
+claude/.claude/commands/gsd/settings.md
+  h_80cac1271e711d 1-36
+claude/.claude/commands/gsd/ship.md
+  h_80cac1271e711d 1-23
+claude/.claude/commands/gsd/stats.md
+  h_80cac1271e711d 1-18
+claude/.claude/commands/gsd/thread.md
+  h_80cac1271e711d 1-127
+claude/.claude/commands/gsd/ui-phase.md
+  h_80cac1271e711d 1-34
+claude/.claude/commands/gsd/ui-review.md
+  h_80cac1271e711d 1-32
+claude/.claude/commands/gsd/update.md
+  h_80cac1271e711d 1-37
+claude/.claude/commands/gsd/validate-phase.md
+  h_80cac1271e711d 1-35
+claude/.claude/commands/gsd/verify-work.md
+  h_80cac1271e711d 1-38
+claude/.claude/commands/gsd/workstreams.md
+  h_80cac1271e711d 1-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6442b0f49fc78f094c9e181baffe8fa4b89839f7",
+  "prompts": {},
+  "humans": {
+    "h_80cac1271e711d": {
+      "author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
