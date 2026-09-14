@@ -1,4 +1,4 @@
-PACKAGES := claude env spacemacs tmux zsh
+PACKAGES := claude emacs env spacemacs tmux zsh
 
 .PHONY: $(PACKAGES)
 all: $(PACKAGES)

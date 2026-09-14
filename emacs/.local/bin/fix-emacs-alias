@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# ABOUTME: Repairs the /Applications/Emacs.app Finder alias after a Homebrew upgrade.
+# ABOUTME: Finder bakes the versioned Cellar path into the alias, so upgrades orphan it.
+set -euo pipefail
+
+alias_path="/Applications/Emacs.app"
+
+# Resolve the app bundle via Homebrew's opt links, which survive upgrades. The
+# unversioned alias link tracks whichever emacs-plus keg is currently linked, so
+# prefer it; fall back to an explicitly versioned keg.
+find_source_app() {
+  local candidate
+  for candidate in /opt/homebrew/opt/emacs-plus/Emacs.app \
+                   /opt/homebrew/opt/emacs-plus@*/Emacs.app; do
+    if [[ -d "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+resolve_alias() {
+  osascript -e 'tell application "Finder" to get POSIX path of ((original item of alias file "Emacs.app" of folder "Applications" of startup disk) as alias)' 2>/dev/null
+}
+
+# A real bundle, or a working symlink to one, is not ours to touch.
+if [[ -d "$alias_path" ]]; then
+  exit 0
+fi
+
+if ! source_app="$(find_source_app)"; then
+  echo "fix-emacs-alias: no emacs-plus Emacs.app under /opt/homebrew/opt; is it installed?" >&2
+  exit 1
+fi
+
+# Only ask Finder about an alias that is actually on disk. Finder answers from a
+# cache that briefly outlives the file, and would otherwise report a deleted
+# alias as healthy.
+if [[ -e "$alias_path" ]]; then
+  target="$(resolve_alias || true)"
+  # A healthy alias resolves to a bundle that still exists. Stay quiet in that
+  # case so this is cheap to call after every brew command.
+  if [[ -n "$target" && -d "$target" ]]; then
+    exit 0
+  fi
+fi
+
+rm -f "$alias_path"
+osascript \
+  -e "tell application \"Finder\" to make alias file to posix file \"$source_app\" at POSIX file \"/Applications\"" \
+  -e 'tell application "Finder" to set name of result to "Emacs.app"' >/dev/null
+
+echo "fix-emacs-alias: repaired $alias_path -> $(resolve_alias)"

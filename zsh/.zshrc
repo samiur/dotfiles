@@ -39,3 +39,14 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
 export PATH=/Users/samiur/.opencode/bin:$PATH
+
+# Homebrew has no post-upgrade hook, and every emacs-plus upgrade orphans the
+# /Applications/Emacs.app Finder alias, so repair it whenever brew touches packages.
+brew() {
+  command brew "$@"
+  local ret=$?
+  case "${1:-}" in
+    upgrade|install|reinstall) fix-emacs-alias || true ;;
+  esac
+  return $ret
+}
