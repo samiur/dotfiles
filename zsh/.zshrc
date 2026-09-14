@@ -30,3 +30,12 @@ source <(openclaw completion --shell zsh)
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by git-ai installer on Mon Jun 15 11:33:15 PDT 2026
+export PATH="/Users/samiur/.git-ai/bin:$PATH"
+
+# Prefer the native Claude Code build (~/.local/bin) over any npm/brew copies
+export PATH="$HOME/.local/bin:$PATH"
+
+# opencode
+export PATH=/Users/samiur/.opencode/bin:$PATH
