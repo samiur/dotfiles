@@ -5,8 +5,7 @@ set +a
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 
-# Added by `rbenv init` on Thu Nov 21 17:35:44 PST 2024
-eval "$(rbenv init - --no-rehash zsh)"
+eval "$(mise activate zsh)"
 
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
@@ -28,3 +27,6 @@ ulimit -f unlimited
 
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# Other env vars
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
