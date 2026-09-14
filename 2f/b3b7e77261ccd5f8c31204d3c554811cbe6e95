@@ -1,0 +1,28 @@
+zsh/.zshrc
+  s_7ee0664f6d17d7::t_c5b24f41031424 36-38
+  s_86292152737d46::t_3e178f55e99493 33-35,39-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "2fb3b7e77261ccd5f8c31204d3c554811cbe6e95",
+  "prompts": {},
+  "sessions": {
+    "s_7ee0664f6d17d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "55b3b7d8-9ab4-4fe0-bb59-09e9f4a9fceb",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    },
+    "s_86292152737d46": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "20f0ecc5-0731-438b-a384-6ae5589efc63",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
