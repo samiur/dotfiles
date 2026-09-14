@@ -1,0 +1,14 @@
+claude/.claude/commands/keep-going.md
+  h_80cac1271e711d 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "99bf8b23a57beff2cc7bab0b4629c11aad9da45a",
+  "prompts": {},
+  "humans": {
+    "h_80cac1271e711d": {
+      "author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
