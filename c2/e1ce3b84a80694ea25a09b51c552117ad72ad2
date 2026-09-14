@@ -1,0 +1,14 @@
+env/Dev/env.sh
+  h_80cac1271e711d 8,30-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "c2e1ce3b84a80694ea25a09b51c552117ad72ad2",
+  "prompts": {},
+  "humans": {
+    "h_80cac1271e711d": {
+      "author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
