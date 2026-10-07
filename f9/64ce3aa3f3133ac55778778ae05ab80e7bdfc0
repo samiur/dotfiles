@@ -1,0 +1,26 @@
+linux/bootstrap.sh
+  s_b940441183bd4a::t_cd0064bc7b74f7 40,42-43,46
+  s_b940441183bd4a::t_b4f7a27216a3d9 123
+  s_b940441183bd4a::t_c9235719e1cdae 75-76
+  s_b940441183bd4a::t_8bfd365bba48b4 1-39,41,44-45,47-74,77-122,124-210
+linux/claude-settings.json
+  s_b940441183bd4a::t_9c3b4f9fdff429 1-23
+README.md
+  s_b940441183bd4a::t_34a701e4e24062 3-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f964ce3aa3f3133ac55778778ae05ab80e7bdfc0",
+  "prompts": {},
+  "sessions": {
+    "s_b940441183bd4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "238aaccb-7da7-4a34-8555-bf2fe795e7a5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
