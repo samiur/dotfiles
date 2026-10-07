@@ -1,0 +1,14 @@
+# Claude Code plugins for personal Linux machines: <plugin>@<marketplace> <marketplace source>
+# BetterUp marketplaces stay on the work laptop only.
+autoresearch@autoresearch uditgoenka/autoresearch
+clangd-lsp@claude-plugins-official anthropics/claude-plugins-official
+code-simplifier@claude-plugins-official anthropics/claude-plugins-official
+expo@claude-plugins-official anthropics/claude-plugins-official
+ralph-loop@claude-plugins-official anthropics/claude-plugins-official
+superpowers@claude-plugins-official anthropics/claude-plugins-official
+typescript-lsp@claude-plugins-official anthropics/claude-plugins-official
+draft-review-kit@draft-review-kit-local EveryInc/draft-review-kit
+hands-on-deck@hands-on-deck EveryInc/hands-on-deck
+prompt-architect@prompt-architect-marketplace ckelsoe/prompt-architect
+google-dev-style@samiur-skills git@github.com:samiur/claude-skills.git
+samiur@samiur-skills git@github.com:samiur/claude-skills.git
