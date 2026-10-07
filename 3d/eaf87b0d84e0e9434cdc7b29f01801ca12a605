@@ -1,0 +1,19 @@
+.editorconfig
+  s_b940441183bd4a::t_d27bc13a738e59 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3deaf87b0d84e0e9434cdc7b29f01801ca12a605",
+  "prompts": {},
+  "sessions": {
+    "s_b940441183bd4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "238aaccb-7da7-4a34-8555-bf2fe795e7a5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
