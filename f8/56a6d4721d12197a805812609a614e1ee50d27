@@ -1,0 +1,19 @@
+linux/bootstrap.sh
+  s_b940441183bd4a::t_126135d94384bc 130-136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f856a6d4721d12197a805812609a614e1ee50d27",
+  "prompts": {},
+  "sessions": {
+    "s_b940441183bd4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "238aaccb-7da7-4a34-8555-bf2fe795e7a5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
