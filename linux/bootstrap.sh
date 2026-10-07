@@ -127,6 +127,13 @@ install_toolchain() {
     npm install -g typescript typescript-language-server
     mise reshim
   fi
+  # A node that mise does not manage keeps npm's global bin dir off PATH, so link the binaries in.
+  if ! command -v typescript-language-server >/dev/null; then
+    local npm_bin
+    npm_bin="$(npm prefix -g)/bin"
+    ln -sfn "$npm_bin/typescript-language-server" "$HOME/.local/bin/typescript-language-server"
+    ln -sfn "$npm_bin/tsc" "$HOME/.local/bin/tsc"
+  fi
 }
 
 install_claude() {
