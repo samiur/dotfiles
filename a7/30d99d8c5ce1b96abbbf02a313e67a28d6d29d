@@ -1,0 +1,28 @@
+linux/claude-plugins.txt
+  s_b940441183bd4a::t_1532239e54a8f2 1-14
+linux/test-in-container.sh
+  s_b940441183bd4a::t_c1fcd4253de8d6 42-43,45,50-54
+  s_b940441183bd4a::t_88cda19f89ec12 1-41,44,46-49,55-57
+linux/doctor.sh
+  s_b940441183bd4a::t_7a01e97173e441 41
+  s_b940441183bd4a::t_5f09d34b65ad5a 1-25,31-39,43-90
+  s_b940441183bd4a::t_8bc018c6fe053b 26-30
+  s_b940441183bd4a::t_7ae69f7303fd5e 40
+  s_b940441183bd4a::t_6ddf12d199d560 42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a730d99d8c5ce1b96abbbf02a313e67a28d6d29d",
+  "prompts": {},
+  "sessions": {
+    "s_b940441183bd4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "238aaccb-7da7-4a34-8555-bf2fe795e7a5",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Samiur Rahman <samiur.rahman@betterup.co>"
+    }
+  }
+}
